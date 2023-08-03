@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Nxt gen</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="{{ url_for('static', filename='myscript.js') }}"></script>
+    <style>
+        .sub-title {
+            position: relative;
+            bottom: 1em;
+            color: darkslategrey;
+        }
+
+        #output-section {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            background: black;
+            color: white;
+            border-radius: 6px;
+        }
+
+        #generatedText {
+            padding: 5px;
+        }
+
+        #clipboard {
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        #titleSection {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #seed-text {
+            width: -webkit-fill-available;
+        }
+    </style>
+</head>
+
+<body style="padding: 1em; margin: 0 auto; width: 650px;">
+    <div id="titleSection">
+        <div>
+            <h1>NXT GEN</h1>
+            <span class="sub-title">A tool that simplifies your daily tech tasks</span>
+        </div>
+        <div style="position: relative; top: 3em;">
+            <select name="taskType" id="task" class="btn btn-primary" onchange="onTaskChange()">
+                <option value="testCase">Test cases</option>
+                <option value="UserStory">User story</option>
+            </select>
+        </div>
+    </div>
+    <div id="promptSection">
+        <textarea id="seed-text" rows="8" cols="80"
+            placeholder="Describe about your feature to generate the test cases..."></textarea><br><br>
+        <button type="submit" class="btn btn-success" onclick="onLoad()">Generate</button><br><br>
+    </div>
+    <div id="response-section" style="display: none;">
+        <h2>Generated result</h2>
+        <div id="output-section">
+            <div id="generatedText"></div>
+            <span id="clipboard" onclick="onCopyToClipbord()"><i class="material-icons">content_copy</i></span>
+        </div>
+    </div>
+</body>
+
+</html>
