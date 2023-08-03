@@ -1,12 +1,25 @@
-function onLoad() {
-    debugger
-    fetch('/generate_text')
-        .then((response) => response.json())
+function getGeneratedResponse(input) {
+    const apiUrl = `/generate_text?input=${input}`;
+    const generatedTextDiv = document.getElementById('generatedText');
+    generatedTextDiv.innerHTML = "Generating, Please wait..."
+    fetch(apiUrl, {
+        method: 'GET'
+    })
+        .then((response) => {
+            return response.json();
+        })
         .then((data) => {
-            const promtTextArea = document.getElementById('seed-text');
-            promtTextArea.innerText = data.message;
+            apiResponse = data[0].generated_text;
+            // const escapedSentence = input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            // // Create a regular expression to match the sentence to remove (case-insensitive)
+            // const regex = new RegExp('\\b' + escapedSentence + '\\b', 'gi');
+            // // Replace the sentence with an empty string
+            // const modifiedString = apiResponse.replace(regex, '');
+            // generatedTextDiv.innerHTML = modifiedString;
+            generatedTextDiv.innerHTML = apiResponse;
         })
         .catch((error) => {
+            generatedTextDiv.innerHTML = "There's some issue, Please retry!"
             console.error('Error:', error);
         });
 }
@@ -14,35 +27,21 @@ function onLoad() {
 function onTaskChange() {
     const selectedTask = document.getElementById('task').value;
     const promtTextArea = document.getElementById('seed-text');
-    promtTextArea.placeholder = selectedTask === 'testCase' ? 'Describe about your feature to generate the test cases...' : 'Say something about your requirement to write the User story...';
+    const placeholderForTestCase = 'Describe about your feature to generate the test cases...';
+    const placeholderForUS = 'Say something about your requirement to write the User story...';
+    promtTextArea.placeholder = selectedTask === 'testCase' ? placeholderForTestCase : placeholderForUS;
 }
 
 function generateText() {
-    const inputText = document.getElementById('seed-text').value;
-    const responseElement = document.getElementById('response-section');
-    if (inputText && inputText.length > 0) {
-        responseElement.style.display = 'inline';
-        // Replace the following lines with our text generation logic (currntly we're returning the same as input).
-        const generatedText = inputText;
-        // Update the UI with the generated text.
-        const generatedTextDiv = document.getElementById('generatedText');
-        generatedTextDiv.innerText = generatedText;
-    } else {
-        responseElement.style.display = 'none';
-    }
+    const seedText = document.getElementById('seed-text').value;
+    const selectedTask = document.getElementById('task').value;
+    promptForTestCase = "Write a test for the following requirement,"
+    promptForUserStory = "Write an user story for following feature,"
+    processedInputTest = `${selectedTask === 'testCase' ? promptForTestCase : promptForUserStory} "${seedText}"`
+    getGeneratedResponse(processedInputTest)
 }
 
 function onCopyToClipbord() {
     const result = document.getElementById('generatedText');
     navigator.clipboard.writeText(result.innerHTML);
 }
-
-// const axios = require('axios');
-// async function getData() {
-//     try {
-//         const response = await axios.get('https://api.example.com/data');
-//         console.log(response.data);
-//     } catch (error) {
-//         console.error('Error:', error);
-//     }
-// }

@@ -2,12 +2,14 @@
 from transformers import pipeline
 
 
-def generate_response():    
+def generate_response(input):    
     gpt2 = "gpt2"
     llama30b = "OpenAssistant/oasst-sft-6-llama-30b-xor"
-    input = "Write a user story to create a downloading the grid data as excel feature"
+    # Idea of storing the models in the variable is,
+    # In future we can enable the users to shift the models dynamically as what they want
     pipe = pipeline(task="text-generation", model=gpt2, max_length=None, max_new_tokens=1000)
-    return pipe(input, num_return_sequences=1)
+    result = pipe(input, num_return_sequences=1)
+    return result
 
 
 

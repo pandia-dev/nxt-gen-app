@@ -1,27 +1,22 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from gpt2 import generate_response
+from flask_cors import CORS, cross_origin
 app = Flask(__name__, static_url_path='/static', static_folder='static')
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
-# Loading the HTML template
+# ----------Loading the HTML template----------
 @app.route('/')
 def index():
     return render_template('nxt-gen.html')
-#-------------------------------------------------------------
 
+#----------Response API----------
 
-#-----------------------------------------------------------------
-# Creating a GET API
 @app.route('/generate_text', methods=['GET'])
-def generate_text():
-    data = {
-        'message': 'Hello, this is a GET API example!'
-    }
-    return data
-
-# Consuming the GET API
-# response = requests.get('http://127.0.0.1:5000/get-messegae', None)
-# result = response
-# print(result)
+@cross_origin()
+def generate():
+    input = request.args.get('input', '')
+    return generate_response(input)
 
 # --------------Run the app-------------
 if __name__ == '__main__':
