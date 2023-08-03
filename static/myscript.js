@@ -29,15 +29,27 @@ function onTaskChange() {
     const promtTextArea = document.getElementById('seed-text');
     const placeholderForTestCase = 'Describe about your feature to generate the test cases...';
     const placeholderForUS = 'Say something about your requirement to write the User story...';
-    promtTextArea.placeholder = selectedTask === 'testCase' ? placeholderForTestCase : placeholderForUS;
+    promtTextArea.placeholder = selectedTask === 'userStory' ? placeholderForUS : placeholderForTestCase;
 }
 
 function generateText() {
     const seedText = document.getElementById('seed-text').value;
     const selectedTask = document.getElementById('task').value;
-    promptForTestCase = "Write a test for the following requirement,"
-    promptForUserStory = "Write an user story for following feature,"
-    processedInputTest = `${selectedTask === 'testCase' ? promptForTestCase : promptForUserStory} "${seedText}"`
+    const promptForTestCase = "Write a step by step manual software test case for the following requirement,"
+    const promptForAutomationCode = "Write a software test case code for the following requirement,"
+    const promptForUserStory = "Write an user story for the following feature,"
+    let processedInputTest
+    switch (selectedTask) {
+        case 'testCase':
+            processedInputTest = `${promptForTestCase} "${seedText}"`;
+            break;
+        case 'automationCode':
+            processedInputTest = `${promptForAutomationCode} "${seedText}"`;
+            break;
+        case 'userStory':
+            processedInputTest = `${promptForUserStory} "${seedText}"`;
+            break;
+    }
     getGeneratedResponse(processedInputTest)
 }
 

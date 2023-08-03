@@ -28,11 +28,15 @@
 
         #generatedText {
             padding: 5px;
+            width: -webkit-fill-available;
+            background: black;
+            border-right: none;
         }
 
         #clipboard {
             cursor: pointer;
-            padding: 5px;
+            padding-top: 25px;
+            padding-right: 5px;
         }
 
         #titleSection {
@@ -42,6 +46,10 @@
 
         #seed-text {
             width: -webkit-fill-available;
+        }
+        #result-title {
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 </head>
@@ -55,7 +63,8 @@
         <div style="position: relative; top: 3em;">
             <select name="taskType" id="task" class="btn btn-primary" onchange="onTaskChange()">
                 <option value="testCase">Test cases</option>
-                <option value="UserStory">User story</option>
+                <option value="automationCode">Automation code</option>
+                <option value="userStory">User story</option>
             </select>
         </div>
     </div>
@@ -65,10 +74,12 @@
         <button type="submit" class="btn btn-success" onclick="generateText()">Generate</button><br><br>
     </div>
     <div id="response-section">
-        <h2>Generated result</h2>
-        <div id="output-section">
-            <div id="generatedText"></div>
+        <div id="result-title">
+            <h2>Generated result</h2>
             <span id="clipboard" onclick="onCopyToClipbord()"><i class="material-icons">content_copy</i></span>
+        </div>
+        <div id="output-section">
+            <textarea rows="20" id="generatedText"></textarea>
         </div>
     </div>
 </body>
