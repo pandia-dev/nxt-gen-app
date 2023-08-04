@@ -1,13 +1,8 @@
 # Use a pipeline as a high-level helper
 from transformers import pipeline
 
-
-def generate_response(input):    
-    gpt2 = "gpt2"
-    llama30b = "OpenAssistant/oasst-sft-6-llama-30b-xor"
-    # Idea of storing the models in the variable is,
-    # In future we can enable the users to shift the models dynamically as what they want
-    pipe = pipeline(task="text-generation", model=gpt2, max_length=None, max_new_tokens=1000)
+def generate_response(input, model):
+    pipe = pipeline(task="text-generation", model=model, max_length=None, max_new_tokens=1000)
     result = pipe(input, num_return_sequences=1)
     return result
 
@@ -16,6 +11,14 @@ def generate_response(input):
 
 
 
+
+
+
+
+
+
+
+# In future we can use tokenizer method if needed
 # from transformers import AutoTokenizer, AutoModelForCausalLM
 # Load model directly
 # model = AutoModelForCausalLM.from_pretrained("gpt2")

@@ -11,75 +11,102 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="{{ url_for('static', filename='myscript.js') }}"></script>
     <style>
+        #main-container {
+            background: lavender;
+            padding: 2em;
+            border-radius: 0 5em 0 5em;
+            box-shadow: 2px 2px 2px 2px darkgray;
+        }
+
         .sub-title {
             position: relative;
             bottom: 1em;
             color: darkslategrey;
         }
 
+        #seed-text {
+            width: -webkit-fill-available;
+            resize: vertical;
+        }
+
         #output-section {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            background: black;
             color: white;
             border-radius: 6px;
         }
 
-        #generatedText {
+        #generated-text {
             padding: 5px;
             width: -webkit-fill-available;
+            resize: vertical;
             background: black;
             border-right: none;
+            border-radius: 0 2.5em 0 2.5em;
         }
 
         #clipboard {
             cursor: pointer;
             padding-top: 25px;
-            padding-right: 5px;
+            padding-left: 15px;
         }
 
-        #titleSection {
+        #title-section {
             display: flex;
             justify-content: space-between;
         }
 
-        #seed-text {
-            width: -webkit-fill-available;
+        #result-header {
+            display: flex;
+            justify-content: space-between;
         }
+
         #result-title {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
         }
+        
     </style>
 </head>
 
 <body style="padding: 1em; margin: 0 auto; width: 650px;">
-    <div id="titleSection">
-        <div>
-            <h1>NXT GEN</h1>
-            <span class="sub-title">A tool that simplifies your daily tech tasks</span>
+    <div id="main-container">
+        <div id="title-section">
+            <div>
+                <h1>NXT GEN</h1>
+                <span class="sub-title">A tool that simplifies your daily tech tasks</span>
+            </div>
+            <div style="position: relative; top: 3em;">
+                <select name="taskType" id="task" class="btn btn-primary" onchange="onTaskChange()">
+                    <option value="testCase">Test cases</option>
+                    <option value="automationCode">Automation code</option>
+                    <option value="userStory">User story</option>
+                </select>
+            </div>
         </div>
-        <div style="position: relative; top: 3em;">
-            <select name="taskType" id="task" class="btn btn-primary" onchange="onTaskChange()">
-                <option value="testCase">Test cases</option>
-                <option value="automationCode">Automation code</option>
-                <option value="userStory">User story</option>
-            </select>
+        <div id="prompt-section">
+            <textarea id="seed-text" rows="8"
+                placeholder="Describe about your feature to generate the test cases..."></textarea><br><br>
+            <button type="submit" class="btn btn-success" onclick="generateText()">Generate</button>
         </div>
-    </div>
-    <div id="promptSection">
-        <textarea id="seed-text" rows="8" cols="80"
-            placeholder="Describe about your feature to generate the test cases..."></textarea><br><br>
-        <button type="submit" class="btn btn-success" onclick="generateText()">Generate</button><br><br>
-    </div>
-    <div id="response-section">
-        <div id="result-title">
-            <h2>Generated result</h2>
-            <span id="clipboard" onclick="onCopyToClipbord()"><i class="material-icons">content_copy</i></span>
-        </div>
-        <div id="output-section">
-            <textarea rows="20" id="generatedText"></textarea>
+        <div id="response-section">
+            <div id="result-header">
+                <div id="result-title">
+                    <h2>Generated result</h2>
+                    <span id="clipboard" onclick="onCopyToClipbord()"><i class="material-icons">content_copy</i></span>
+                </div>
+                <div style="position: relative; top: 1.5em;">
+                    <select name="aiModel" id="ai-model" class="btn btn-primary">
+                        <option value="gpt2">GPT 2</option>
+                        <option value="meta-llama/Llama-2-70b-chat-hf">Llama 2-70b</option>
+                        <option value="OpenAssistant/oasst-sft-6-llama-30b-xor">Llama 30b-xor</option>
+                    </select>
+                </div>
+            </div>
+            <div id="output-section">
+                <textarea rows="20" id="generated-text"></textarea>
+            </div>
         </div>
     </div>
 </body>
